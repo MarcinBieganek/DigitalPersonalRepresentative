@@ -16,8 +16,9 @@ Be professional and engaging, as if talking to a potential client or future empl
 
         return system_prompt
 
-    def chat(self, message):
-        messages = [{"role": "system", "content": self.system_prompt()}] + [{"role": "user", "content": message}]
+    def chat(self, message, history):
+        messages = [{"role": "system", "content": self.system_prompt()}] + history + [{"role": "user", "content": message}]
+
         response = self.client.chat.completions.create(
             model=self.model,
             messages=messages,
