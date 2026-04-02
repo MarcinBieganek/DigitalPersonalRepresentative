@@ -159,3 +159,4 @@ gradio_cached_examples
 
 data/*.pdf
 data/*.txt
+data/*.json
