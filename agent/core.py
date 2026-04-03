@@ -2,8 +2,10 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import json
 
-from data_loader import *
-import tools
+from agent.data_loader import *
+import agent.tools as tool_functions
+from agent.tools import tools_list
+
 
 load_dotenv(override=True)
 
@@ -31,8 +33,10 @@ You are given a summary of the {self.person_name} background. Use it to answer q
         for call in tool_calls:
             name = call.function.name
             args = json.loads(call.function.arguments)
+
             print(f"Tool called: {name}", flush=True)
-            tool_func = getattr(tools, name, None)
+            
+            tool_func = getattr(tool_functions, name, None)
             if tool_func:
                 try:
                     result = tool_func(**args)
@@ -56,7 +60,7 @@ You are given a summary of the {self.person_name} background. Use it to answer q
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=messages,
-                tools=tools.tools_list
+                tools=tools_list
             )
             choice = response.choices[0]
 
