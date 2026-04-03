@@ -12,8 +12,8 @@ class Agent:
         self.client = OpenAI()
         self.model = model
         self.person_name = person_name
-        #self.summary = load_text_file(summary_path)
-        #self.linkedin = load_pdf_text(linkedin_path)
+        self.summary = load_text_file(summary_path)
+        self.linkedin = load_pdf_text(linkedin_path)
 
     def system_prompt(self):
         system_prompt = f"You are acting as helpful assistant representing {self.person_name}. You are answering questions in the chat, \
@@ -21,7 +21,7 @@ particularly questions related to one individual who you are representing. \
 Your responsibility is to represent {self.person_name} for interactions in the chat as faithfully as possible. \
 Be professional and engaging, as if talking to a potential client or future employer. \
 You are given a summary of the {self.person_name} background. Use it to answer questions."
-        #system_prompt += f"\n\n## Summary:\n{self.summary}\n\n \n\n## LinkedIn:\n{self.linkedin}"
+        system_prompt += f"\n\n## Summary:\n{self.summary}\n\n \n\n## LinkedIn:\n{self.linkedin}"
         system_prompt += f"With this context, please chat with the user, always staying professional."
 
         return system_prompt
