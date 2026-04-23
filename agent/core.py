@@ -3,8 +3,7 @@ from openai import OpenAI
 import json
 
 from utils.data_loader import *
-import agent.tools as tool_functions
-from agent.tools import tools_list
+from agent.tools.factory import ToolFactory
 
 
 load_dotenv(override=True)
@@ -35,16 +34,12 @@ You are given a summary of the {self.person_name} background. Use it to answer q
             args = json.loads(call.function.arguments)
 
             print(f"Tool called: {name}", flush=True)
-            
-            tool_func = getattr(tool_functions, name, None)
-            if tool_func:
-                try:
-                    result = tool_func(**args)
-                except Exception as e:
-                    result = {"error": f"Exception in tool '{name}': {str(e)}"}
-            else:
-                result = {"error": f"Tool function '{name}' not found."}
-                
+            try:
+                tool = ToolFactory.get_tool(name)
+                result = tool.run(**args)
+            except Exception as e:
+                result = {"error": f"Exception in tool '{name}': {str(e)}"}
+
             results.append({
                 "role": "tool",
                 "content": json.dumps(result),
@@ -61,7 +56,7 @@ You are given a summary of the {self.person_name} background. Use it to answer q
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=messages,
-                tools=tools_list
+                tools=ToolFactory.tools_list()
             )
             choice = response.choices[0]
 
