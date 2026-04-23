@@ -11,4 +11,3 @@ def load_pdf_text(path):
         if content := page.extract_text():
             text += content
     return text
-

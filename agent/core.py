@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import json
 
-from agent.data_loader import *
+from utils.data_loader import *
 import agent.tools as tool_functions
 from agent.tools import tools_list
 
@@ -44,6 +44,7 @@ You are given a summary of the {self.person_name} background. Use it to answer q
                     result = {"error": f"Exception in tool '{name}': {str(e)}"}
             else:
                 result = {"error": f"Tool function '{name}' not found."}
+                
             results.append({
                 "role": "tool",
                 "content": json.dumps(result),

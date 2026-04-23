@@ -2,17 +2,9 @@ import os
 import requests
 from dotenv import load_dotenv
 
-load_dotenv(override=True)
+from utils.push import push
 
-def push(text):
-    requests.post(
-        "https://api.pushover.net/1/messages.json",
-        data={
-            "token": os.getenv("PUSHOVER_TOKEN"),
-            "user": os.getenv("PUSHOVER_USER"),
-            "message": text,
-        }
-    )
+load_dotenv(override=True)
 
 def record_user_details(email, name="Name not provided", notes="not provided"):
     push(f"Recording {name} with email {email} and notes {notes}")
