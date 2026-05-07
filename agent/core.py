@@ -98,7 +98,7 @@ You are given a summary of the {self.person_name} background. Use it to answer q
             # Check if response evalutaor is available
             elif self.evaluator:
                 reply = choice.message.content
-                evaluation = self.evaluator.evaluate(reply, message, history=history)
+                evaluation = self.evaluator.evaluate(reply, message, history=messages)
 
                 if hasattr(evaluation, 'is_acceptable') and not evaluation.is_acceptable:
                     needs_reask = True

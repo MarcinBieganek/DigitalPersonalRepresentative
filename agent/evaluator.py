@@ -1,3 +1,4 @@
+import json
 import os
 from pydantic import BaseModel
 from openai import OpenAI
@@ -30,7 +31,10 @@ The Agent has been provided with context on {self.person_name} in the form of th
     def build_user_prompt(self, reply, message, history=None):
         user_prompt = ""
         if history:
-            user_prompt += f"Here's the conversation between the User and the Agent: \n\n{history}\n\n"
+            user_prompt += "Here's the conversation between the User and the Agent:\n\n"
+            user_prompt += json.dumps(history, indent=2)
+            user_prompt += "\n\n"
+            user_prompt += "The conversation is a list of messages with roles (system, user, assistant, tool).\n\n"
         user_prompt += f"Here's the latest message from the User: \n\n{message}\n\n"
         user_prompt += f"Here's the latest response from the Agent: \n\n{reply}\n\n"
         user_prompt += "Please evaluate the response, replying with whether it is acceptable and your feedback."
