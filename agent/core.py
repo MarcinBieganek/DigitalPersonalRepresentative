@@ -77,11 +77,12 @@ You are given a summary of the {self.person_name} background. Use it to answer q
 
         while True:
             if needs_reask:
-                response = self.reask(last_reply, message, history, last_feedback)
-                reask_count += 1
                 # To avoid infinite loops:
                 if reask_count > self.max_reasks:
                     return last_reply
+                
+                response = self.reask(last_reply, message, messages, last_feedback)
+                reask_count += 1
             else:
                 response = self.ask(messages)
 
