@@ -25,7 +25,6 @@ The Agent has been instructed to be professional and engaging, as if talking to 
 The Agent has been provided with context on {self.person_name} in the form of their summary and LinkedIn details. Here's the information:"
         prompt += f"\n\n## Summary:\n{self.summary}\n\n## LinkedIn Profile:\n{self.linkedin}\n\n"
         prompt += f"With this context, please evaluate the latest response, replying with whether the response is acceptable and your feedback."
-        2
         return prompt
 
     def build_user_prompt(self, reply, message, history=None):
