@@ -32,14 +32,18 @@ You are given a summary of the {self.person_name} background. Use it to answer q
     def handle_tool_call(self, tool_calls):
         results = []
         for call in tool_calls:
-            name = call.function.name
-            args = json.loads(call.function.arguments)
+            name = "unknown"
 
-            print(f"Tool called: {name}", flush=True)
             try:
+                name = call.function.name
+                args = json.loads(call.function.arguments or "{}")
+
+                print(f"Tool called: {name}", flush=True)
+
                 tool = ToolFactory.get_tool(name)
                 result = tool.run(**args)
             except Exception as e:
+                print(f"Exception in tool '{name}': {str(e)}", flush=True)
                 result = {"error": f"Exception in tool '{name}': {str(e)}"}
 
             results.append({
