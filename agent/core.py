@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import json
 
-from utils.data_loader import *
+from utils.data_loader import load_text_file, load_pdf_text
 from agent.tools.factory import ToolFactory
 
 
@@ -100,7 +100,7 @@ You are given a summary of the {self.person_name} background. Use it to answer q
                 messages.append(message_obj)
                 messages.extend(results)
                 needs_reask = False
-            # Check if response evalutaor is available
+            # Check if response evaluator is available
             elif self.evaluator:
                 reply = choice.message.content
                 evaluation = self.evaluator.evaluate(reply, message, history=messages)
