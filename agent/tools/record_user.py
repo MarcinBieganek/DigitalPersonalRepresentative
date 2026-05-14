@@ -22,8 +22,8 @@ class RecordUserTool(Tool):
     def run(self, **kwargs):
         try:
             email = self.get_required(kwargs, "email")
-            name = kwargs.get("name", "Name not provided")
-            notes = kwargs.get("notes", "not provided")
+            name = self.get_optional(kwargs, "name", "Name not provided")
+            notes = self.get_optional(kwargs, "notes", "not provided")
 
             push(f"Recording {name} with email {email} and notes {notes}")
             

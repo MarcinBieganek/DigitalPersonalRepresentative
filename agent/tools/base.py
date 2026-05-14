@@ -19,3 +19,12 @@ class Tool(ABC):
             raise ValueError(f"'{key}' must be of type {expected_type}")
         
         return value
+    
+    def get_optional(self, kwargs, key, default=None, expected_type=None):
+        value = kwargs.get(key, default)
+
+        if expected_type and value is not None and not isinstance(value, expected_type):
+            raise ValueError(f"'{key}' must be of type {expected_type}")
+
+        return value
+
