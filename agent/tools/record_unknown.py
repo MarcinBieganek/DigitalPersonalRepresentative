@@ -17,6 +17,12 @@ class RecordUnknownTool(Tool):
             }
         }
 
-    def run(self, question):
-        push(f"Recording {question}")
-        return {"recorded": "ok"}
+    def run(self, **kwargs):
+        try:
+            question = self.get_required(kwargs, "question")
+
+            push(f"Recording {question}")
+            
+            return {"status": "ok"}
+        except Exception as e:
+            return {"status": "error", "message": str(e)}

@@ -19,6 +19,14 @@ class RecordUserTool(Tool):
             }
         }
 
-    def run(self, email, name="Name not provided", notes="not provided"):
-        push(f"Recording {name} with email {email} and notes {notes}")
-        return {"recorded": "ok"}
+    def run(self, **kwargs):
+        try:
+            email = self.get_required(kwargs, "email")
+            name = kwargs.get("name", "Name not provided")
+            notes = kwargs.get("notes", "not provided")
+
+            push(f"Recording {name} with email {email} and notes {notes}")
+            
+            return {"status": "ok"}
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
